@@ -1,0 +1,74 @@
+{
+  "indexes": [
+    {
+      "collectionId": "numbers",
+      "state": "READY",
+      "fields": [
+        {
+          "fieldPath": "matched",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "mode": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionId": "matches",
+      "state": "READY",
+      "fields": [
+        {
+          "fieldPath": "matched",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "mode": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionId": "matches",
+      "state": "READY",
+      "fields": [
+        {
+          "fieldPath": "finished",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "mode": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionId": "predictions",
+      "state": "READY",
+      "fields": [
+        {
+          "fieldPath": "match",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "mode": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionId": "matches",
+      "state": "READY",
+      "fields": [
+        {
+          "fieldPath": "finished",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "mode": "DESCENDING"
+        }
+      ]
+    }
+  ]
+}

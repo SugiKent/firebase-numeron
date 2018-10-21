@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Signup from '@/components/Signup'
-import Signin from '@/components/Signin'
+import Hello from '@/components/Hello'
 import GameReady from '@/components/Game/Ready'
 import GameMatching from '@/components/Game/Matching'
+import GameBattle from '@/components/Game/Battle'
+import GameWinner from '@/components/Game/Winner'
+import GameLoser from '@/components/Game/Loser'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -12,55 +13,61 @@ Vue.use(Router)
 let router = new Router({
   routes: [
     {
-      path: '*',
-      redirect: 'signin'
-    },
-    {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/signup',
-      name: 'Signup',
-      component: Signup
-    },
-    {
-      path: '/signin',
-      name: 'Signin',
-      component: Signin
+      name: 'Hello',
+      component: Hello
     },
     {
       path: '/game/ready',
       name: 'GameReady',
-      component: GameReady
+      component: GameReady,
+      meta: {requiresAuth: true}
     },
     {
-      path: '/game/matching',
+      path: '/game/matching/:id',
       name: 'GameMatching',
-      component: GameMatching
+      component: GameMatching,
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/game/battle/:id',
+      name: 'GameBattle',
+      component: GameBattle,
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/game/winner/:id',
+      name: 'GameWinner',
+      component: GameWinner,
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/game/loser/:id',
+      name: 'GameLoser',
+      component: GameLoser,
+      meta: {requiresAuth: true}
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requireAuth)
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  // このルートはログインされているかどうか認証が必要です。
+
+  // もしされていないならば、ログインページにリダイレクトします。
   if (requiresAuth) {
-    // このルートはログインされているかどうか認証が必要です。
-    // もしされていないならば、ログインページにリダイレクトします。
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         next()
       } else {
         next({
-          path: '/signin',
+          path: '/',
           query: { redirect: to.fullPath }
         })
       }
     })
   } else {
-    next() // next() を常に呼び出すようにしてください!
+    next()
   }
 })
 

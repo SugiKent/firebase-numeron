@@ -1,0 +1,26 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    match /numbers/{numberId} {
+      allow read: if isAuthenticated();
+      allow write;// if request.auth.uid == resource.data.user
+    }
+
+		match /matches/{matchId} {
+      allow read: if isAuthenticated();
+      allow write;//: if request.auth.uid == resource.data.user1 || request.auth.uid == resource.data.user2
+    }
+
+		match /predictions/{predictionId} {
+      allow read: if isAuthenticated();
+      allow write;//: if request.auth.uid == resource.data.user
+    }
+
+		match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if request.auth.uid == resource.data.id
+    }
+  }
+}

@@ -16,27 +16,25 @@ export default {
     this.numbersRef = this.firestore.collection('numbers')
     this.matchesRef = this.firestore.collection('matches')
 
-    this.numbersRef.where('matched', '==', false).orderBy('created_at').onSnapshot(
+    var user = firebase.auth().currentUser
+
+    var timestamp = this.$route.params.id
+
+    this.matchesRef.where('finished', '==', false).where('created_at', '>', timestamp).orderBy('created_at', 'desc').onSnapshot(
       ss => {
         ss.docChanges().forEach(change => {
           if (change.type === 'added') {
-            // let doc = change.doc
-            // this.matchesRef.add({
-            //
-            // }).then(
-            //   this.$router.push('/game/match')
-            // ).catch(
-            //   e => alert(e)
-            // )
+            let doc = change.doc.data()
+            const matchStart = (doc.user1 === user.uid || doc.user2 === user.uid)
+
+            if (matchStart) {
+              this.$router.push('/game/battle/' + doc.urlId)
+            }
+            return true
           }
         })
       }
     )
-  },
-  data () {
-    return {
-      numbersList: []
-    }
   },
   methods: {
   }

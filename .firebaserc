@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "development": "vue-test-69ee7",
+    "vue-test": "vue-test-69ee7",
+    "default": "vue-test-69ee7"
+  }
+}
